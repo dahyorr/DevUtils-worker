@@ -1,7 +1,7 @@
 import os
 import sys
 import pathlib
-import pika
+# import pika
 from checksum_generator.generate import get_checksum
 
 BASE_PATH = pathlib.Path().resolve()
@@ -19,7 +19,7 @@ def main():
 
 
 if(__name__ == "__main__"):
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-    channel = connection.channel()
+    # connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+    # channel = connection.channel()
     main()
-    connection.close()
+    # connection.close()
