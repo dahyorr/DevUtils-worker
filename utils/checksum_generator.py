@@ -1,7 +1,7 @@
 import hashlib
 
 
-def get_checksum(filepath, hash_function):
+def generate_checksum(filepath, hash_function):
     """Generate checksum for file baed on hash function (MD5 or SHA256)"""
     hash_function = hash_function.lower()
     with open(filepath, "rb") as f:

@@ -11,4 +11,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD [ "python3.10", "main.py", "requirements.txt" ]
+# CMD [ "python3.10", "main.py", "requirements.txt" ]
+CMD [ "python3.10", "consumer.py" ]
