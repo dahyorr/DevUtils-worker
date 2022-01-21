@@ -40,7 +40,7 @@ def hash_file(file_name, hash_type):
         "hash": hash
     }
     new_metadata = add_hash_to_metadata(file_metadata, hash_data)
-    RedisClient.set(file_name, json.dumps(new_metadata), timedelta=FILE_DURATION)
+    RedisClient.set(file_name, json.dumps(new_metadata), ex=FILE_DURATION)
     RedisClient.publish('hash-completed', json.dumps({
         "fileId": file_name,
         "hash_type": hash_type
