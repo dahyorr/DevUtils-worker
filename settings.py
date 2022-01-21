@@ -1,0 +1,13 @@
+import os
+
+RABBITMQ_USER = os.environ.get('RABBITMQ_DEFAULT_USER');
+RABBITMQ_PASSWORD = os.environ.get('RABBITMQ_DEFAULT_PASS');
+RABBITMQ_HOST = os.environ.get('RABBITMQ_HOST');
+RABBITMQ_PORT = os.environ.get('RABBITMQ_PORT');
+REDIS_HOST = os.environ.get('REDIS_HOST');
+REDIS_PORT = os.environ.get('REDIS_PORT');
+
+AMPQ_URL = f'amqp://{RABBITMQ_USER}:{RABBITMQ_PASSWORD}@{RABBITMQ_HOST}:{RABBITMQ_PORT}'
+REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}'
+UPLOAD_PATH = '/uploads'
+FILE_DURATION = int(os.environ.get('FILE_DURATION'))
