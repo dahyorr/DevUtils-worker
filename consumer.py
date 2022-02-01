@@ -14,12 +14,16 @@ LOG_FORMAT = ('%(asctime) -5s %(levelname)s'
 LOGGER = logging.getLogger(__name__)
 
 
-def add_hash_to_metadata(file_metadata, hash_data):
+def add_hash_to_metadata(file_metadata, hash_data, hash_type):
     hashes = file_metadata['hashes']
     if not hashes:
         hashes = [hash_data]
     else:
-        hashes.append(hash_data)
+        try:
+            hash_index = [i for i,x in enumerate(hashes) if x["hashType"] == hash_type][0]
+            hashes[hash_index] = hash_data
+        except IndexError:
+            hashes.append(hash_data)
     file_metadata['hashes'] = hashes
     return file_metadata
 
@@ -37,9 +41,10 @@ def hash_file(file_name, hash_type):
     hash = generate_checksum(file_path, hash_type)
     hash_data = {
         "hashType": hash_type,
-        "hash": hash
+        "hash": hash,
+        "status": 'Completed'
     }
-    new_metadata = add_hash_to_metadata(file_metadata, hash_data)
+    new_metadata = add_hash_to_metadata(file_metadata, hash_data, hash_type)
     RedisClient.set(file_name, json.dumps(new_metadata), ex=FILE_DURATION)
     RedisClient.publish('hash-completed', json.dumps({
         "fileId": file_name,
