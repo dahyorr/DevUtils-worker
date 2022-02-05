@@ -28,6 +28,12 @@ def add_hash_to_metadata(file_metadata, hash_data, hash_type):
     return file_metadata
 
 
+def delete_file(file_id):
+    file_path = os.join(UPLOAD_PATH, file_id)
+    os.remove(file_path)
+    # TODO: delete file after 2hrs
+
+
 def hash_file(file_name, hash_type):
     file_path = validate_file(UPLOAD_PATH, file_name)
     if not file_path:
@@ -51,7 +57,6 @@ def hash_file(file_name, hash_type):
         "hash_type": hash_type
     }))
 
-# TODO: Delete file after file duration
 
 class HashingConsumer(object):
     """
