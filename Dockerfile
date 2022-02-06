@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-buster AS base
 
 WORKDIR /code
 RUN mkdir staticfiles
@@ -7,7 +7,8 @@ ENV PYTHONUNBUFFERED 1
 EXPOSE 8000
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
