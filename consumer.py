@@ -5,7 +5,7 @@ import json
 import pika
 from pika.exchange_type import ExchangeType
 from settings import AMPQ_URL, UPLOAD_PATH, FILE_DURATION
-from utils.checksum_generator import generate_checksum
+from utils.checksum_generator import generate_checksum, generate_checksum_bucket
 from utils.file_validator import validate_file
 from utils.redis_client import RedisClient
 
@@ -35,16 +35,17 @@ def delete_file(file_id):
 
 
 def hash_file(file_name, hash_type):
-    file_path = validate_file(UPLOAD_PATH, file_name)
-    if not file_path:
-        raise FileNotFoundError('The requested file was not found')
+    # file_path = validate_file(UPLOAD_PATH, file_name)
+    # if not file_path:
+    #     raise FileNotFoundError('The requested file was not found')
     
     file_metadata = RedisClient.get(file_name)
     if not file_metadata:
         raise Exception('The file metadata was not found')
     file_metadata = json.loads(file_metadata.decode())
 
-    hash = generate_checksum(file_path, hash_type)
+    # hash = generate_checksum(file_path, hash_type)
+    hash = generate_checksum_bucket(file_name, hash_type)
     hash_data = {
         "hashType": hash_type,
         "hash": hash,
