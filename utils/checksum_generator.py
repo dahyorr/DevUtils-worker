@@ -25,6 +25,10 @@ def generate_checksum_bucket(file_id, hash_function):
         readable_hash = hashlib.md5(bytes).hexdigest()
     elif hash_function == "sha256":
         readable_hash = hashlib.sha256(bytes).hexdigest()
+    elif hash_function == "sha512":
+        readable_hash = hashlib.sha512(bytes).hexdigest()
+    elif hash_function == "sha224":
+        readable_hash = hashlib.sha224(bytes).hexdigest()
     else:
         raise(f"{hash_function} is an invalid hash function")
 
