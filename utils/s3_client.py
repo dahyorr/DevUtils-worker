@@ -1,31 +1,22 @@
+import os
 import boto3
 from botocore.errorfactory import ClientError
-from settings import S3_ENDPOINT, S3_UPLOAD_SECRET, S3_UPLOAD_KEY, S3_UPLOAD_BUCKET
 
 
-client = boto3.client(
-    's3',
-    aws_access_key_id=S3_UPLOAD_KEY,
-    aws_secret_access_key=S3_UPLOAD_SECRET,
-    endpoint_url=S3_ENDPOINT,
-)
+client = boto3.client('s3')
+S3_BUCKET = os.environ.get('S3_BUCKET')
 
-# def download_file(file_id):
-#     return client.download_file(Bucket=bucket, Key=key)['Body'].read()
-
-def stream_file(file_id):
-    return client.get_object(Bucket=S3_UPLOAD_BUCKET, Key=file_id)['Body'].read()
+def stream_file(file_path:str):
+    return client.get_object(Bucket=S3_BUCKET, Key=file_path)['Body'].read()
 
 
-def validate_file(file_id):
+def validate_file(file_path):
     try:
-        client.head_object(S3_UPLOAD_BUCKET, file_id)
+        client.head_object(S3_BUCKET, file_path)
         return True
-    except botocore.exceptions.ClientError as e:
+    except ClientError as e:
         if e.response['Error']['Code'] == "404":
             return False
         else:
             # Something else has gone wrong.
             raise("s3-client: Unknown error")
-    else:
-        return False
