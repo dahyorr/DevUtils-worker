@@ -26,6 +26,9 @@ functions:
     handler: wsgi_handler.handler
     events:
       - httpApi: '*'
+    environment:
+      S3_BUCKET: ${env:S3_BUCKET}
+      AWS_S3_BUCKET_REGION: ${env:AWS_S3_BUCKET_REGION}
 
 plugins:
   - serverless-wsgi
