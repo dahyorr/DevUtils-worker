@@ -1,25 +1,20 @@
 service: devutils-worker
 
-frameworkVersion: '3'
+frameworkVersion: '4'
 
 custom:
   wsgi:
     app: app.app
 
-useDotenv: true
-
 provider:
   name: aws
-  runtime: python3.9
+  runtime: python3.12
 
 functions:
   api:
     handler: wsgi_handler.handler
     events:
       - httpApi: '*'
-    environment:
-      S3_BUCKET: ${env:S3_BUCKET}
-      AWS_S3_BUCKET_REGION: ${env:AWS_S3_BUCKET_REGION}
 
 plugins:
   - serverless-wsgi
