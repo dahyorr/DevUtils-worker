@@ -9,6 +9,17 @@ custom:
 provider:
   name: aws
   runtime: python3.12
+  region: eu-west-2
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action: "s3:GetObject"
+          Resource: 
+            Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - ${env:S3_BUCKET}
 
 functions:
   api:
